@@ -1,6 +1,8 @@
 package harjoitustyo.dokumentit;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
 
 public class Uutinen extends Dokumentti{
     
@@ -23,13 +25,14 @@ public class Uutinen extends Dokumentti{
     }
 
     public LocalDate päivämäärä(){
+
         return päivämäärä;
     }
 
     // Overridetään toString
     @Override
     public String toString(){
-        return tunniste() + "///" + päivämäärä() + "///" + teksti();
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("d.M.YYYY");
+        return tunniste() + "///" + form.format(päivämäärä()) + "///" + teksti();
     }
-    
 }

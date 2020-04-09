@@ -1,12 +1,14 @@
 package harjoitustyo.dokumentit;
 
+import java.util.LinkedList;
+
 public class Vitsi extends Dokumentti {
 
     // Attribuutit
     private String laji;
 
     // Rakentaja
-    public Vitsi(int tunniste, String teksti, String uusiLaji) throws IllegalArgumentException{
+    public Vitsi(int tunniste,  String uusiLaji, String teksti) throws IllegalArgumentException{
         super(tunniste, teksti);
         laji(uusiLaji);
     }

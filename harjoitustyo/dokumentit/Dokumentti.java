@@ -1,6 +1,10 @@
 package harjoitustyo.dokumentit;
 
-public abstract class Dokumentti implements Comparable<Dokumentti>{
+import harjoitustyo.apulaiset.Tietoinen;
+
+import java.util.LinkedList;
+
+public abstract class Dokumentti<T> implements Comparable<Dokumentti>, Tietoinen<Dokumentti> {
 
     // Attribuutit
     private int tunniste;
@@ -50,12 +54,20 @@ public abstract class Dokumentti implements Comparable<Dokumentti>{
         }
     }
 
-    public boolean equals(Dokumentti o){
-        if (o.tunniste() == this.tunniste()){
-            return true;
-        }else{
+    @Override
+    public boolean equals(Object o){
+        if (o == null) {
             return false;
         }
+        if (o.getClass() != this.getClass()){
+            return false;
+        }
+        Dokumentti other = (Dokumentti) o;
+        if (other.tunniste() != this.tunniste()){
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -63,5 +75,35 @@ public abstract class Dokumentti implements Comparable<Dokumentti>{
         return tunniste() + "///" + teksti();
     }
 
-    
+
+    @Override
+    public boolean sanatTäsmäävät(LinkedList<String> hakusanat) throws IllegalArgumentException {
+        if (hakusanat == null || hakusanat.size() == 0){
+            throw new IllegalArgumentException();
+        }
+
+        String[] sanat = teksti().split(" ");
+        int hakuPituus = hakusanat.size();
+        int onkoSamaPituus = 0;
+
+        for(int i = 0; i < hakuPituus; i++){
+            for (String sana : sanat){
+                if (sana.equals(hakusanat.get(hakuPituus - 1))){
+                    onkoSamaPituus++;
+                    break;
+                }
+            }
+        }
+
+        if (onkoSamaPituus == hakuPituus){
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void siivoa(LinkedList<String> sulkusanat, String välimerkit) throws IllegalArgumentException {
+
+    }
 }
