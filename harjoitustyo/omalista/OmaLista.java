@@ -9,13 +9,15 @@ public class OmaLista<E> extends LinkedList<E> implements Ooperoiva<E>{
     @SuppressWarnings("unchecked")
     @Override
     public void lisää(E uusi) throws IllegalArgumentException {
+        // Tarkistetaan että uusi on Comparable instanssi
         if (!(uusi instanceof Comparable)) {
             throw new IllegalArgumentException();
         }
+
         if (this.size() == 0) {
             this.add(uusi);
         } else {
-
+            // Käydään lista läpi ja pakotetaan variableille Comparable
             for (int i = 0; i < this.size(); i++) {
                 if (((Comparable) this.get(i)).compareTo(uusi) > 0) {
                     this.add(i, uusi);

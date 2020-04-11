@@ -109,6 +109,7 @@ public abstract class Dokumentti<T> implements Comparable<Dokumentti>, Tietoinen
             throw new IllegalArgumentException();
         }
 
+        // Luodaan teksti variablesta uusi LinkedList erottamalla sanat välilyönnillä
         LinkedList<String> uudetSanat = new LinkedList<String>(Arrays.asList(teksti().split(" ")));
         cleanVälimerkit(uudetSanat, välimerkit);
 
@@ -125,7 +126,6 @@ public abstract class Dokumentti<T> implements Comparable<Dokumentti>, Tietoinen
     }
 
     private void cleanVälimerkit(LinkedList<String> lista, String välimerkit){
-
         for (int i = 0; i < lista.size(); i++){
             LinkedList<String> merkit = new LinkedList<String>(Arrays.asList(lista.get(i).split("")));
             for (int j = 0; j < merkit.size(); j++) {
@@ -151,7 +151,7 @@ public abstract class Dokumentti<T> implements Comparable<Dokumentti>, Tietoinen
         StringBuilder combinedString = new StringBuilder();
         for (int i = 0; i < lista.size(); i++) {
             if (i != lista.size() - 1){
-                combinedString.append(lista.get(i).toLowerCase() + " ");
+                combinedString.append(lista.get(i).toLowerCase()).append(" ");
             }else{
                 combinedString.append(lista.get(i).toLowerCase());
             }

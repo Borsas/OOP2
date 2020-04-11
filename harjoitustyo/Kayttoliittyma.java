@@ -1,5 +1,7 @@
 package harjoitustyo;
 
+import harjoitustyo.kokoelma.Kokoelma;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 

@@ -1,6 +1,5 @@
 package harjoitustyo.dokumentit;
 
-import java.util.LinkedList;
 
 public class Vitsi extends Dokumentti {
 

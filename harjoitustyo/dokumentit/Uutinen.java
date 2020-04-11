@@ -2,7 +2,6 @@ package harjoitustyo.dokumentit;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
 
 public class Uutinen extends Dokumentti{
     
