@@ -1,2 +1,5 @@
 # Estetään tavukoodin lisääminen tietovarastoon.
 *.class
+*.zip
+out
+.idea
