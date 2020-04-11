@@ -2,6 +2,7 @@ package harjoitustyo.dokumentit;
 
 import harjoitustyo.apulaiset.Tietoinen;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public abstract class Dokumentti<T> implements Comparable<Dokumentti>, Tietoinen<Dokumentti> {
@@ -104,6 +105,57 @@ public abstract class Dokumentti<T> implements Comparable<Dokumentti>, Tietoinen
 
     @Override
     public void siivoa(LinkedList<String> sulkusanat, String välimerkit) throws IllegalArgumentException {
+        if (sulkusanat == null || sulkusanat.size() == 0 || välimerkit == null || välimerkit.equals("")){
+            throw new IllegalArgumentException();
+        }
 
+        LinkedList<String> uudetSanat = new LinkedList<String>(Arrays.asList(teksti().split(" ")));
+        cleanVälimerkit(uudetSanat, välimerkit);
+
+        for (String sana : sulkusanat){
+            for(int i = 0; i < uudetSanat.size(); i++) {
+                if (uudetSanat.get(i).toLowerCase().equals(sana)){
+                    uudetSanat.remove(i);
+                    i--;
+                }
+            }
+        }
+        teksti(combineToStringWithSpace(uudetSanat));
+
+    }
+
+    private void cleanVälimerkit(LinkedList<String> lista, String välimerkit){
+
+        for (int i = 0; i < lista.size(); i++){
+            LinkedList<String> merkit = new LinkedList<String>(Arrays.asList(lista.get(i).split("")));
+            for (int j = 0; j < merkit.size(); j++) {
+                if (välimerkit.contains(merkit.get(j))){
+                    merkit.remove(j);
+                    j--;
+                }
+            }
+            lista.remove(i);
+            lista.add(i, combineToString(merkit));
+        }
+    }
+
+    private String combineToString(LinkedList<String> lista) {
+        StringBuilder combinedString = new StringBuilder();
+        for(String sana : lista){
+            combinedString.append(sana.toLowerCase());
+        }
+        return combinedString.toString();
+    }
+
+    private String combineToStringWithSpace(LinkedList<String> lista) {
+        StringBuilder combinedString = new StringBuilder();
+        for (int i = 0; i < lista.size(); i++) {
+            if (i != lista.size() - 1){
+                combinedString.append(lista.get(i).toLowerCase() + " ");
+            }else{
+                combinedString.append(lista.get(i).toLowerCase());
+            }
+        }
+        return combinedString.toString();
     }
 }
