@@ -23,10 +23,9 @@ public class OmaLista<E> extends LinkedList<E> implements Ooperoiva<E>{
                     this.add(i, uusi);
                     break;
                 } else if(i == this.size() - 1){
-                    this.addLast( uusi);
+                    this.addLast(uusi);
                     break;
                 }
-
             }
         }
     }
