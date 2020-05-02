@@ -4,8 +4,10 @@ package harjoitustyo.kokoelma;
 import harjoitustyo.apulaiset.Kokoava;
 import harjoitustyo.dokumentit.Dokumentti;
 import harjoitustyo.omalista.OmaLista;
+import java.io.File;
+import java.util.LinkedList;
 
-public class Kokoelma<Dokumentti> implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dokumentit.Dokumentti> {
+public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dokumentit.Dokumentti> {
 
     // Attribuutti
     private harjoitustyo.omalista.OmaLista<harjoitustyo.dokumentit.Dokumentti> dokumentit;
