@@ -5,7 +5,7 @@ import harjoitustyo.apulaiset.Tietoinen;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public abstract class Dokumentti<T> implements Comparable<Dokumentti>, Tietoinen<Dokumentti> {
+public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Dokumentti> {
 
     // Attribuutit
     private int tunniste;
@@ -125,26 +125,15 @@ public abstract class Dokumentti<T> implements Comparable<Dokumentti>, Tietoinen
 
     }
 
+    /**
+     * Poistetaan listasta kaikki annetut välimerkit ja asetetaan sen listassa muokatun elementin päälle.
+     * @param lista sisältää dokumentin tekstin
+     * @param välimerkit käyttäjän antamat välimerkit
+     */
     private void cleanVälimerkit(LinkedList<String> lista, String välimerkit){
-        for (int i = 0; i < lista.size(); i++){
-            LinkedList<String> merkit = new LinkedList<String>(Arrays.asList(lista.get(i).split("")));
-            for (int j = 0; j < merkit.size(); j++) {
-                if (välimerkit.contains(merkit.get(j))){
-                    merkit.remove(j);
-                    j--;
-                }
-            }
-            lista.remove(i);
-            lista.add(i, combineToString(merkit));
+        for (int i = 0; i < lista.size(); i++) {
+             lista.set(i, lista.get(i).replaceAll(String.format("[%s]*", välimerkit), ""));
         }
-    }
-
-    private String combineToString(LinkedList<String> lista) {
-        StringBuilder combinedString = new StringBuilder();
-        for(String sana : lista){
-            combinedString.append(sana.toLowerCase());
-        }
-        return combinedString.toString();
     }
 
     private String combineToStringWithSpace(LinkedList<String> lista) {
