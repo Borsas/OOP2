@@ -1,12 +1,8 @@
 package harjoitustyo;
 
 import harjoitustyo.dokumentit.Dokumentti;
-import harjoitustyo.dokumentit.Uutinen;
-import harjoitustyo.dokumentit.Vitsi;
 import harjoitustyo.kokoelma.Kokoelma;
-import harjoitustyo.omalista.OmaLista;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -29,34 +25,41 @@ public class Kayttoliittyma {
     /** Tarkistetaan ovatko ohjelmalle annetut argumentit oikeat
     */
     public void parseArguments(String[] args){
-        if (args.length > 1){
-            mainLoop();
+        System.out.println("Welcome to L.O.T.");
+
+        if (args.length == 2){
+            Utility util = new Utility();
+            LinkedList<String> tekstiKokoelma = util.lueTiedosto(args[0]);
+            LinkedList<String> sulkusanat = util.lueTiedosto(args[1]);
+
+            if (tekstiKokoelma == null || sulkusanat == null){
+                System.out.println("Missing file!");
+            }else{
+                mainLoop(tekstiKokoelma, sulkusanat);
+            }
+
         }else{
-            System.out.println("Error!");
-            mainLoop();
+            System.out.println("Wrong number of command-line arguments!");
         }
+
+        System.out.println("Program terminated.");
     }
 
     /** Tässä methodissa otetaan käyttäjältä vastaan kaikki komennot ja ohjataan ne oikeille methodeille
      Kokoelma luokassa
      */
-    private void mainLoop(){
+    private void mainLoop(LinkedList<String> tekstiKokoelma, LinkedList<String> sulkusanat){
         Scanner scanner = new Scanner(System.in);
         Kokoelma kokoelma = new Kokoelma();
 
-        LinkedList<String> sulkusanat = new LinkedList<>();
-        sulkusanat.add("cat");
-        Vitsi v1 = new Vitsi(1, "joo", "asd");
-        Vitsi v3 = new Vitsi(3, "joo", "cat dog.?@ asd");
-        Vitsi v4 = new Vitsi(4, "ei", "cat dog");
-        kokoelma.lisää(v1);
-        kokoelma.lisää(v4);
-        kokoelma.lisää(v3);
-
-        System.out.println("Welcome to L.O.T");
-
         boolean runLoop = true;
         boolean enableEcho = false;
+        try {
+            kokoelma.luoKokoelma(tekstiKokoelma);
+        } catch (IllegalArgumentException e){
+            System.out.println("Error!");
+            runLoop = false;
+        }
 
         while(runLoop){
             System.out.println("Please, enter a command:");
@@ -77,17 +80,19 @@ public class Kayttoliittyma {
                         }
                         break;
                     case RESET:
-                        kokoelma = new Kokoelma();
-                        Vitsi v2 = new Vitsi(2, "asdgf", "etrhweqr");
-                        kokoelma.lisää(v2);
-                        //kokoelma.lisääTiedostosta(tiedosto);
+                        try {
+                            kokoelma = new Kokoelma();
+                            kokoelma.luoKokoelma(tekstiKokoelma);
+                        } catch (IllegalArgumentException e){
+                            System.out.println("Error!");
+                        }
                         break;
                     case ECHO:
+                        System.out.println("echo");
                         enableEcho = true;
                         break;
                     case QUIT:
                         runLoop = false;
-                        System.out.println("Program terminated.");
                         break;
                     default:
                         System.out.println("Error!");
@@ -111,11 +116,7 @@ public class Kayttoliittyma {
                             }
                             break;
                         case REMOVE:
-                            for (int i = 0; i < kokoelma.dokumentit().size(); i++) {
-                                if(kokoelma.dokumentit().get(i).tunniste() == commandArg){
-                                    kokoelma.dokumentit().remove(i);
-                                }
-                            }
+                            kokoelma.poista(commandArg);
                             break;
                         case FREQS:
                             System.out.println("FREQS");
@@ -143,7 +144,7 @@ public class Kayttoliittyma {
                 try {
                     // Lisätään find komennon kaikki arguementit listaan ja poistetaan eka, koska se on komento "find"
                     LinkedList<String> poistoSanat = new LinkedList<>(command);
-                    poistoSanat.remove(1);
+                    poistoSanat.remove(0);
 
                     for (Dokumentti dokkari : kokoelma.dokumentit()){
                         if (dokkari.sanatTäsmäävät(poistoSanat)){
@@ -154,32 +155,15 @@ public class Kayttoliittyma {
                     System.out.println("Error!");
                 }
             } else if (command.get(0).equals(ADD)){
-                    try {
-                        String[] uusiDokumentti = command.get(1).split("///");
-                        int uusiTunniste = Integer.parseInt(uusiDokumentti[0]);
+                String uusiDokumentti = inputCommand.replace(command.get(0) + " ", "");
+                // Jos kokoelmasta löytyy samalla tunnisteella dokumentti, palauttaa method
+                // IllegalArgumentException
+                try {
+                    kokoelma.lisääDokumenttiKokoelmaan(uusiDokumentti);
+                } catch (IllegalArgumentException e){
+                    System.out.println("Error!");
+                }
 
-                        // Käydään kaikki dokumentit läpi ja tarkistetaan ettei tunnistetta löydy jo
-                        // Jos tunnistetta ei löydä, tarkisteaan onko kokoelmassa Vitsejä vai Uutisia ja luodaan
-                        // Uusi olio sen perusteella
-                        for (Dokumentti tarkistaDokkari : kokoelma.dokumentit()){
-                            if (tarkistaDokkari.tunniste() != uusiTunniste){
-                                if (tarkistaDokkari instanceof Vitsi){
-                                    Vitsi uusiVitsi = new Vitsi(uusiTunniste, uusiDokumentti[1], uusiDokumentti[2]);
-                                    kokoelma.lisää(uusiVitsi);
-                                } else{
-                                    LocalDate pvm = LocalDate.parse(uusiDokumentti[1]);
-                                    Uutinen uusiUutinen = new Uutinen(uusiTunniste, pvm, uusiDokumentti[2]);
-                                    kokoelma.lisää(uusiUutinen);
-                                }
-                                break;
-                            } else{
-                                System.out.println("Error!");
-                                break;
-                            }
-                        }
-                    } catch (Exception e){
-                        System.out.println("Error!");
-                    }
             } else {
                 System.out.println("Error!");
             }
