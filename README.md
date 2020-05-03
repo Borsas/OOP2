@@ -1,22 +1,26 @@
-## Yleistä
+# Olio-ohjelmoinnin perusteet II harjoitustyö.
 
-WETO käyttää aina alkuperäistä _harjoitustyo.apulaiset_-pakkausta. Pakkauksen
-tiedostoja ei siksi ole syytä muuttaa ellet ole Mac- tai Linux-käyttäjä (katso
-alla).
+## Käynistäminen
 
-Projektipohjan juuressa on _.gitignore_-tiedosto, jolla estetään tavukoodin
-tallennus versionhallintaan. Lisää siihen tarvittaessa estoja.
+Ohjelman käyttö vaatii vähintään 2 tiedosto, **Vitsi tai Uutinen** dokumentti tiedoston ja **sulkusanat**.
+Dokumentti tiedoston kuuluu seurata alla olevaa formaattia.
 
-## Mac- ja Linux-käyttäjät
+`4///miscellaneous///This may be the wine talking, but I really, really, really, really love wine.`
 
-Projektipohjan tiedostojen rivinvaihdot ovat Windows-tyylisiä (CR & LF). Muuta
-rivinvaihdot tarvittaessa Mac/Linux-muotoon (LF). Tämä onnistuu todennäköisesti
-käyttämälläsi editorilla tai IDE:llä. **Älä muuta** _harjoitustyo.apulaiset_
--pakkausta **millään muulla tavoin**.
+## Komennot
 
-## Muuta
+#### Ohjelmasta löytyy seuraavat komennot.
+* **print** `tunniste`
+* **add** `tunniste`
+* **remove** `tunniste`
+* **find** `sana(t)`
+* **polish** `merkit (Esim. @"?)`
+* **echo**
+* **reset**
+* **quit**
 
-Perinteisesti tietovarastoissa on projektista kertova README.md-tiedosto. Korvaa
-siksi tämän tiedoston sisältö tekstillä, jossa kuvailet ohjelmaasi omin sanoin.
-Kerro lyhyesti mitä ohjelma tekee ja kuinka sitä käytetään. Käytä tekstissä
-muotoiluja. Tämän dokumentin mittainen teksti riittää hyvin.
+#### Laajasta työstä löytyy myös seuraavat komennot
+* **sort**
+* **freqs**
+* **pprint**
+
