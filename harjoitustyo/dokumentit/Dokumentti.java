@@ -4,6 +4,15 @@ import harjoitustyo.apulaiset.Tietoinen;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.TreeMap;
+
+/**
+ * Abstrakti Dokumentti-luokka. Kokoelmissa käytetyt oliot periytyvät tästä.
+ * <p>
+ * Harjoitustyö, Olio-ohjelmoinnin perusteet II, kevät 2020
+ * <p>
+ * @author Oskari Kuikka 430988 (oskari.kuikka@tuni.fi)
+ */
 
 public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Dokumentti> {
 
@@ -76,7 +85,12 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
         return tunniste() + "///" + teksti();
     }
 
-
+    /**
+     * Tarkistaa täsmäävätkö käyttäjän antamat sanat dokumentin tekstin sanoja.
+     * @param hakusanat lista dokumentin tekstistä haettavia sanoja.
+     * @return palauttaa true jos hakusanat täsmäävät dokumentin tekstin sanoja.
+     * @throws IllegalArgumentException
+     */
     @Override
     public boolean sanatTäsmäävät(LinkedList<String> hakusanat) throws IllegalArgumentException {
         if (hakusanat == null || hakusanat.size() == 0){
@@ -103,6 +117,18 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
         return false;
     }
 
+    // Ei valmis
+    @Override
+    public TreeMap<String, Integer> laskeFrekvenssit() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Poistaa dokumentin tekstistä sulkusanat ja käyttäjän antamat välimerkit.
+     * @param sulkusanat lista dokumentin tekstistä poistettavia sanoja.
+     * @param välimerkit dokumentin tekstistä poistettavat välimerkit merkkijonona.
+     * @throws IllegalArgumentException
+     */
     @Override
     public void siivoa(LinkedList<String> sulkusanat, String välimerkit) throws IllegalArgumentException {
         if (sulkusanat == null || sulkusanat.size() == 0 || välimerkit == null || välimerkit.equals("")){
@@ -126,7 +152,8 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
     }
 
     /**
-     * Poistetaan listasta kaikki annetut välimerkit ja asetetaan sen listassa muokatun elementin päälle.
+     * Poistetaan dokumentin tekstistä kaikki annetut välimerkit
+     * ja asetetaan sen listassa muokatun elementin päälle.
      * @param lista sisältää dokumentin tekstin
      * @param välimerkit käyttäjän antamat välimerkit
      */
@@ -136,6 +163,11 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
         }
     }
 
+    /**
+     *
+     * @param lista lista joka sisältää dokumentin tekstin.
+     * @return
+     */
     private String combineToStringWithSpace(LinkedList<String> lista) {
         StringBuilder combinedString = new StringBuilder();
         for (int i = 0; i < lista.size(); i++) {

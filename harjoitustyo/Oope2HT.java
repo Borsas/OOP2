@@ -1,5 +1,12 @@
-// OOP2 Harjoitustyö Oskari Kuikka
 package harjoitustyo;
+
+/**
+ * Harjoitustyön pääsuoritus luokka.
+ * <p>
+ * Harjoitustyö, Olio-ohjelmoinnin perusteet II, kevät 2020
+ * <p>
+ * @author Oskari Kuikka 430988 (oskari.kuikka@tuni.fi)
+ */
 
 public class Oope2HT {
 

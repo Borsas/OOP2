@@ -1,4 +1,3 @@
-// OOP2 Harjoitustyö - Oskari Kuikka - 430988
 package harjoitustyo.kokoelma;
 
 import harjoitustyo.dokumentit.Dokumentti;
@@ -6,6 +5,14 @@ import harjoitustyo.dokumentit.Uutinen;
 import harjoitustyo.dokumentit.Vitsi;
 import java.time.LocalDate;
 import java.util.LinkedList;
+
+/**
+ * Kokoelma-luokka. Tämä luokka pitää sisällään suurimmanosan harjoitustyön logiikasta.
+ * <p>
+ * Harjoitustyö, Olio-ohjelmoinnin perusteet II, kevät 2020
+ * <p>
+ * @author Oskari Kuikka 430988 (oskari.kuikka@tuni.fi)
+ */
 
 public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dokumentit.Dokumentti> {
 
@@ -22,7 +29,11 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
         return dokumentit;
     }
 
-
+    /**
+     * Lisää dokumentin listalle.
+     * @param uusi viite lisättävään dokumenttiin.
+     * @throws IllegalArgumentException
+     */
     @Override
     public void lisää(harjoitustyo.dokumentit.Dokumentti uusi) throws IllegalArgumentException {
         // Jos dokumentit ei sisällä jo dokumenttiä, eikä se ole null, lisätään se dokumentteihin
@@ -33,7 +44,7 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     }
 
     /**
-     * Lisää käyttäjän antaman dokumentin kokoelmaan, jos sitä ei löydy sieltä vielä.
+     * Luo oikean dokumentti olion ja lisää sen kokoelmaan, jos sitä ei ole vielä olemassa
      * @param uusi dokumentti joka halutaan lisätä kokoelmaan
      * @throws IllegalArgumentException
      */
@@ -69,6 +80,11 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
         }
     }
 
+    /**
+     * Luo tiedoston sisällöstä dokumentteja ja lisä ne kokoelmaan.
+     * @param tekstiKokoelma LinkedList<String> joka sisältää kaikki tiedoston dokumentit
+     * @throws IllegalArgumentException
+     */
     public void luoKokoelma(LinkedList<String> tekstiKokoelma) throws IllegalArgumentException{
         if (tekstiKokoelma == null){
             throw new IllegalArgumentException();
@@ -78,6 +94,11 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
         }
     }
 
+    /**
+     * Palauttaa halutun dokumentin sen tunnisteen perusteella.
+     * @param tunniste haettavan dokumentin tunniste.
+     * @return palauttaa haetun dokumentin jos se on olemassa, muussa tapauksessa null
+     */
     @Override
     public harjoitustyo.dokumentit.Dokumentti hae(int tunniste) {
         // Käy kaikki dokumentit läpi ja vertailee tunnisteita, palauttaa dokumentin, jos se löytyy, muuten palauttaa
@@ -90,6 +111,10 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
         return null;
     }
 
+    /**
+     * Poistaa halutun dokumentin kokoelmasta.
+     * @param tunniste dokumentin tunniste.
+     */
     public void poista(int tunniste){
         for (int i = 0; i < dokumentit.size(); i++) {
             if (dokumentit.get(i).tunniste() == tunniste){

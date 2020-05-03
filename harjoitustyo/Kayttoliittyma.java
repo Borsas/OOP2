@@ -7,6 +7,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+/**
+ * Harjoitustyön Kayttoliittyma-luokka.
+ * Tämä luokka ottaa vastaan käyttäjien komennot ja ohjaa ne oikealle Kokoelma lukokan methodille.
+ * <p>
+ * Harjoitustyö, Olio-ohjelmoinnin perusteet II, kevät 2020
+ * <p>
+ * @author Oskari Kuikka 430988 (oskari.kuikka@tuni.fi)
+ */
 public class Kayttoliittyma {
 
     // Määritellään halutut komennot
@@ -22,8 +30,11 @@ public class Kayttoliittyma {
     private static final String SORT = "sort";
     private static final String PPRINT = "pprint";
 
-    /** Tarkistetaan ovatko ohjelmalle annetut argumentit oikeat
-    */
+    /**
+     * Tarkistetaan, että ohjelmalle annetut parametrit ovat oikeat,
+     * eli löytyvätkö halutut tiedostot ja onko parametrejä oikea määrä (2).
+     * @param args
+     */
     public void parseArguments(String[] args){
         System.out.println("Welcome to L.O.T.");
 
@@ -45,8 +56,11 @@ public class Kayttoliittyma {
         System.out.println("Program terminated.");
     }
 
-    /** Tässä methodissa otetaan käyttäjältä vastaan kaikki komennot ja ohjataan ne oikeille methodeille
-     Kokoelma luokassa
+    /**
+     * Tässä methodissa otetaan käyttäjältä vastaan kaikki komennot ja ohjataan ne oikeille methodeille
+     *  Kokoelma luokassa
+     * @param tekstiKokoelma tiedostosta luetut dokumentit
+     * @param sulkusanat tiedostosta luetut sulkusanat
      */
     private void mainLoop(LinkedList<String> tekstiKokoelma, LinkedList<String> sulkusanat){
         Scanner scanner = new Scanner(System.in);
@@ -119,12 +133,15 @@ public class Kayttoliittyma {
                             kokoelma.poista(commandArg);
                             break;
                         case FREQS:
+                            // TODO
                             System.out.println("FREQS");
                             break;
                         case PPRINT:
+                            // TODO
                             System.out.println("PPRINT");
                             break;
                         case SORT:
+                            // TODO
                             System.out.println("SORT");
                             break;
                         default:

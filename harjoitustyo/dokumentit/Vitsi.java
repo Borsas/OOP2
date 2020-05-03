@@ -1,5 +1,12 @@
 package harjoitustyo.dokumentit;
 
+/**
+ * Vitsi-luokka. Pitää sisällään Vitsi olioon tarvittavat tiedot. Periytyy Dokumentti-luokasta.
+ * <p>
+ * Harjoitustyö, Olio-ohjelmoinnin perusteet II, kevät 2020
+ * <p>
+ * @author Oskari Kuikka 430988 (oskari.kuikka@tuni.fi)
+ */
 
 public class Vitsi extends Dokumentti {
 
