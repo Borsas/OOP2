@@ -3,6 +3,14 @@ package harjoitustyo.dokumentit;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Uutinen-luokka. Pitää sisällään Uutinen olioon tarvittavat tiedot. Periytyy Dokumentti-luokasta.
+ * <p>
+ * Harjoitustyö, Olio-ohjelmoinnin perusteet II, kevät 2020
+ * <p>
+ * @author Oskari Kuikka 430988 (oskari.kuikka@tuni.fi)
+ */
+
 public class Uutinen extends Dokumentti{
     
     // Attribuutti

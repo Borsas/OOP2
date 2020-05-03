@@ -5,9 +5,25 @@ import harjoitustyo.apulaiset.Ooperoiva;
 import java.util.Comparator;
 import java.util.LinkedList;
 
+/**
+ * OmaLista-luokka. OmaLista-luokka periytyy LinkedList-luokasta. OmaListaa käytetään harjoitustyössä
+ * käytettävän datan varastoimiseen.
+ * <p>
+ * Harjoitustyö, Olio-ohjelmoinnin perusteet II, kevät 2020
+ * <p>
+ * @author Oskari Kuikka 430988 (oskari.kuikka@tuni.fi)
+ */
+
 public class OmaLista<E> extends LinkedList<E> implements Ooperoiva<E>{
 
-    // Toteutetaan pakollinen method void lisää Ooperoiva luokasta
+    /**
+     * Asettaa uuden elementin oikealle paikalle listalla.
+     * Method vertailee uutta elementtiä ja vanhoja elementtejä käyttäen Comparable-rajapintaa.
+     * Jos "uusi" on pienempi kuin seuraava elementti, asetetaan "uusi" elementti seuraavan elementin taakse.
+     * @param uusi viite olioon, jonka luokan tai luokan esivanhemman oletetaan
+     * toteuttaneen Comparable-rajapinnan.
+     * @throws IllegalArgumentException
+     */
     @SuppressWarnings("unchecked")
     @Override
     public void lisää(E uusi) throws IllegalArgumentException {
@@ -32,6 +48,7 @@ public class OmaLista<E> extends LinkedList<E> implements Ooperoiva<E>{
         }
     }
 
+    // Ei valmis
     @Override
     public void lajittele(Comparator<? super E> vertailija) throws IllegalArgumentException {
         throw new UnsupportedOperationException();
