@@ -4,6 +4,7 @@ import harjoitustyo.apulaiset.Tietoinen;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.TreeMap;
 
 public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Dokumentti> {
 
@@ -101,6 +102,10 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
         }
 
         return false;
+    }
+    @Override
+    public TreeMap<String, Integer> laskeFrekvenssit() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
