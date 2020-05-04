@@ -1,4 +1,4 @@
-package harjoitustyo;
+import harjoitustyo.Kayttoliittyma;
 
 /**
  * Harjoitustyön pääsuoritus luokka.
