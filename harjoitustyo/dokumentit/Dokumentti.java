@@ -103,7 +103,7 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
 
         for(int i = 0; i < hakuPituus; i++){
             for (String sana : sanat){
-                if (sana.equals(hakusanat.get(hakuPituus - 1))){
+                if (sana.equals(hakusanat.get(i))){
                     onkoSamaPituus++;
                     break;
                 }
@@ -147,7 +147,7 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
                 }
             }
         }
-        teksti(combineToStringWithSpace(uudetSanat));
+        teksti(yhdistaSanat(uudetSanat));
 
     }
 
@@ -158,17 +158,29 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
      * @param välimerkit käyttäjän antamat välimerkit
      */
     private void cleanVälimerkit(LinkedList<String> lista, String välimerkit){
+        String[] merkit = välimerkit.split("");
+
         for (int i = 0; i < lista.size(); i++) {
-             lista.set(i, lista.get(i).replaceAll(String.format("[%s]*", välimerkit), ""));
+            for (int j = 0; j < merkit.length; j++) {
+                String uusiSana = lista.get(i).replace(merkit[j], "");
+                // Joissakin tapauksissa uusiSana on yksittäinen välimerkki jolloin se kuuluu poistaa eikä korvata
+                // koska muuten se luo tupla välilyönnit sanojen väliin.
+                if (uusiSana.length() != 0){
+                    lista.set(i, uusiSana);
+                }else{
+                    lista.remove(i);
+                    i--;
+                }
+            }
         }
     }
 
-    /**
-     *
+    /** Ottaa vastaan LinkedList<String> listan ja yhdistää sanat yhdeksi Stringiksi jättäen väliin yhden
+     * välilyönnin
      * @param lista lista joka sisältää dokumentin tekstin.
-     * @return
+     * @return palauttaa Listan sisällön yhdistetynä välilyönneillä
      */
-    private String combineToStringWithSpace(LinkedList<String> lista) {
+    private String yhdistaSanat(LinkedList<String> lista) {
         StringBuilder combinedString = new StringBuilder();
         for (int i = 0; i < lista.size(); i++) {
             if (i != lista.size() - 1){
