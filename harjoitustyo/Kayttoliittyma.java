@@ -6,6 +6,7 @@ import harjoitustyo.kokoelma.Kokoelma;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 /**
  * Harjoitustyön Kayttoliittyma-luokka.
@@ -16,6 +17,14 @@ import java.util.Scanner;
  * @author Oskari Kuikka 430988 (oskari.kuikka@tuni.fi)
  */
 public class Kayttoliittyma {
+
+    // Kokoelma
+    public Kokoelma kokoelma;
+
+    // Rakentaja
+    public Kayttoliittyma() {
+        kokoelma = new Kokoelma();
+    }
 
     // Määritellään halutut komennot
     private static final String PRINT = "print";
@@ -64,7 +73,6 @@ public class Kayttoliittyma {
      */
     private void mainLoop(LinkedList<String> tekstiKokoelma, LinkedList<String> sulkusanat){
         Scanner scanner = new Scanner(System.in);
-        Kokoelma kokoelma = new Kokoelma();
 
         boolean runLoop = true;
         boolean enableEcho = false;
@@ -108,6 +116,10 @@ public class Kayttoliittyma {
                     case QUIT:
                         runLoop = false;
                         break;
+                    case FREQS:
+                        TreeMap <String, Integer> hakemisto = kokoelma.haeKaikkiFrekvenssit();
+                        laskeFrekvenssit(hakemisto);
+                        break;
                     default:
                         System.out.println("Error!");
                         break;
@@ -133,8 +145,8 @@ public class Kayttoliittyma {
                             kokoelma.poista(commandArg);
                             break;
                         case FREQS:
-                            // TODO
-                            System.out.println("FREQS");
+                            TreeMap <String, Integer> hakemisto = kokoelma.haeSananFrekvenssit(commandArg);
+                            laskeFrekvenssit(hakemisto);
                             break;
                         case PPRINT:
                             // TODO
@@ -185,5 +197,17 @@ public class Kayttoliittyma {
                 System.out.println("Error!");
             }
         }
+    }
+
+    private void laskeFrekvenssit(TreeMap <String, Integer> hakemisto) {
+        if (hakemisto != null){
+            int count = 0;
+            for (String sana: hakemisto.keySet()){
+                System.out.printf("%s %d\n", sana, hakemisto.get(sana));
+                count = count + hakemisto.get(sana);
+            }
+            System.out.printf("A total of %d words.\n", count);
+
+        } else System.out.println("Error!");
     }
 }

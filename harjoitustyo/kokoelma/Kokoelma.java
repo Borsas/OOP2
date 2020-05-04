@@ -5,6 +5,7 @@ import harjoitustyo.dokumentit.Uutinen;
 import harjoitustyo.dokumentit.Vitsi;
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.TreeMap;
 
 /**
  * Kokoelma-luokka. Tämä luokka pitää sisällään suurimmanosan harjoitustyön logiikasta.
@@ -21,7 +22,7 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
 
     // Rakentaja
     public Kokoelma(){
-        dokumentit = new harjoitustyo.omalista.OmaLista<harjoitustyo.dokumentit.Dokumentti>();
+        dokumentit = new harjoitustyo.omalista.OmaLista<>();
     }
 
     // Getter
@@ -37,10 +38,10 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     @Override
     public void lisää(harjoitustyo.dokumentit.Dokumentti uusi) throws IllegalArgumentException {
         // Jos dokumentit ei sisällä jo dokumenttiä, eikä se ole null, lisätään se dokumentteihin
-        if (uusi == null || dokumentit.contains(uusi)) {
+        if (uusi == null || dokumentit().contains(uusi)) {
             throw new IllegalArgumentException();
         }
-        dokumentit.lisää(uusi);
+        dokumentit().lisää(uusi);
     }
 
     /**
@@ -56,9 +57,10 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
         String[] uusiDokumentti = uusi.split("///");
         int uusiTunniste = Integer.parseInt(uusiDokumentti[0]);
 
+
         // Käydään kaikki dokumentit läpi ja tarkistetaan ettei tunnistetta löydy jo
         // Jos tunniste löytyy, heitetään virhe.
-        for (Dokumentti tarkistaDokkari : dokumentit){
+        for (Dokumentti tarkistaDokkari : dokumentit()){
             if (tarkistaDokkari.tunniste() == uusiTunniste) {
                 throw new IllegalArgumentException();
             }
@@ -103,7 +105,7 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     public harjoitustyo.dokumentit.Dokumentti hae(int tunniste) {
         // Käy kaikki dokumentit läpi ja vertailee tunnisteita, palauttaa dokumentin, jos se löytyy, muuten palauttaa
         // null
-        for (harjoitustyo.dokumentit.Dokumentti dokkari : dokumentit){
+        for (harjoitustyo.dokumentit.Dokumentti dokkari : dokumentit()){
             if (dokkari.tunniste() == tunniste){
                 return dokkari;
             }
@@ -116,11 +118,44 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
      * @param tunniste dokumentin tunniste.
      */
     public void poista(int tunniste){
-        for (int i = 0; i < dokumentit.size(); i++) {
-            if (dokumentit.get(i).tunniste() == tunniste){
-                dokumentit.remove(i);
+        for (int i = 0; i < dokumentit().size(); i++) {
+            if (dokumentit().get(i).tunniste() == tunniste){
+                dokumentit().remove(i);
             }
         }
+    }
+
+    /**
+     *
+     * @param dokumentinTunniste
+     * @return
+     */
+    public TreeMap<String, Integer> haeSananFrekvenssit(int dokumentinTunniste){
+        Dokumentti tulostettava = hae(dokumentinTunniste);
+        if (tulostettava == null) {
+            return null;
+        }
+        return tulostettava.laskeFrekvenssit();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public TreeMap<String, Integer> haeKaikkiFrekvenssit(){
+        TreeMap<String, Integer> hakemisto = new TreeMap<>();
+
+        for (Dokumentti dokkari: this.dokumentit()){
+            TreeMap<String, Integer> freqs = dokkari.laskeFrekvenssit();
+            for (String sanat: freqs.keySet()){
+                if (!hakemisto.containsKey(sanat)){
+                    hakemisto.put(sanat, freqs.get(sanat));
+                } else {
+                    hakemisto.replace(sanat, hakemisto.get(sanat) + freqs.get(sanat));
+                }
+            }
+        }
+        return hakemisto;
     }
 
 }

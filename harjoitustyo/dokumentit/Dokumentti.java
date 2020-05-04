@@ -110,17 +110,26 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
             }
         }
 
-        if (onkoSamaPituus == hakuPituus){
-            return true;
-        }
-
-        return false;
+        return onkoSamaPituus == hakuPituus;
     }
 
-    // Ei valmis
-    @Override
+    /**
+     *
+     * @return hakemisto sisältää dokumentin sanat ja niiden lukumäärät
+     */
     public TreeMap<String, Integer> laskeFrekvenssit() {
-        throw new UnsupportedOperationException();
+        TreeMap<String, Integer> hakemisto = new TreeMap<>();
+
+        // Luodaan teksti variablesta uusi LinkedList erottamalla sanat välilyönnillä
+        LinkedList<String> dokumentinSanat = new LinkedList<>(Arrays.asList(this.teksti().split(" ")));
+        for (String sana: dokumentinSanat){
+            if (!hakemisto.containsKey(sana)){
+                hakemisto.put(sana, 1);
+            } else {
+                hakemisto.replace(sana, hakemisto.get(sana) + 1);
+            }
+        }
+        return hakemisto;
     }
 
     /**
@@ -148,7 +157,6 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
             }
         }
         teksti(yhdistaSanat(uudetSanat));
-
     }
 
     /**
