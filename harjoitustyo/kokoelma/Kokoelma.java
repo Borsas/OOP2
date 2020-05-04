@@ -126,9 +126,9 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     }
 
     /**
-     *
-     * @param dokumentinTunniste
-     * @return
+     * Hakee kokoelmasta yhden halutun dokumentin kaikki sanojen frekvenssit.
+     * @param dokumentinTunniste haluttu dokumentti
+     * @return Sanojen frekvenssit, tai null jos dokumenttia ei ole
      */
     public TreeMap<String, Integer> haeSananFrekvenssit(int dokumentinTunniste){
         Dokumentti tulostettava = hae(dokumentinTunniste);
@@ -139,8 +139,9 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     }
 
     /**
-     *
-     * @return
+     * Hakee kaikkien kokoelmassa olevien dokumenttia sanojen frekvenssit ja muodostaa niistä yhden
+     * TreeMapin.
+     * @return kaikki frekvenssit
      */
     public TreeMap<String, Integer> haeKaikkiFrekvenssit(){
         TreeMap<String, Integer> hakemisto = new TreeMap<>();
