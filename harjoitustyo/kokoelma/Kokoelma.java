@@ -189,17 +189,27 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
         return hakemisto;
     }
 
+    /**
+     * Luo oikean tyyppisen Comparator<Dokumentti> variablen, joka annetaan OmaListan lajittele methodille.
+     * @param laji Millä tavalla halutaan järjestää kokoelma, joko id, date tai type.
+     * @throws IllegalArgumentException Jos käyttäjä antaa väärän lajin,
+     * tai jos OmaListan elementit ovat väärää tyyppiä
+     *
+     */
     public void mitenLajitellaanKokoelma(String laji) throws IllegalArgumentException{
         Comparator<Dokumentti> vertailija;
         try {
             switch (laji) {
                 case "id":
+                    // Otetaan suoraan Dokumentin tunniste ja luodaan siitä Comparator
                     vertailija = Comparator.comparing(Dokumentti::tunniste);
                     break;
                 case "date":
+                    // Castataan Dokumentti Uutiseksi, että saamme sen päivämäärän
                     vertailija = Comparator.comparing(dokumentti -> ((Uutinen) dokumentti).päivämäärä());
                     break;
                 case "type":
+                    // Castataan Dokumentti Vitsiksi, että saamme sen lajin
                     vertailija = Comparator.comparing(dokumentti -> ((Vitsi) dokumentti).laji());
                     break;
                 default:
