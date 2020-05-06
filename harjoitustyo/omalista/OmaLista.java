@@ -2,8 +2,10 @@ package harjoitustyo.omalista;
 
 import harjoitustyo.apulaiset.Ooperoiva;
 
+import java.text.Collator;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.Collections;
 
 /**
  * OmaLista-luokka. OmaLista-luokka periytyy LinkedList-luokasta. OmaListaa käytetään harjoitustyössä
@@ -48,9 +50,11 @@ public class OmaLista<E> extends LinkedList<E> implements Ooperoiva<E>{
         }
     }
 
-    // Ei valmis
     @Override
     public void lajittele(Comparator<? super E> vertailija) throws IllegalArgumentException {
-        throw new UnsupportedOperationException();
+        if (vertailija == null ) {
+            throw new IllegalArgumentException();
+        }
+        this.sort(vertailija);
     }
 }

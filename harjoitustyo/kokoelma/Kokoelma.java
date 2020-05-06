@@ -4,6 +4,7 @@ import harjoitustyo.dokumentit.Dokumentti;
 import harjoitustyo.dokumentit.Uutinen;
 import harjoitustyo.dokumentit.Vitsi;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.TreeMap;
 
@@ -65,6 +66,8 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
                 throw new IllegalArgumentException();
             }
         }
+        Dokumentti dokumentti;
+
         // Jos uusiDokumentti[1] sisältää pisteitä, on se päivämäärä, jolloin sen olio on Uutinen.
         if (uusiDokumentti[1].contains(".")){
             String[] katkaistuPvm = uusiDokumentti[1].split("\\.");
@@ -74,11 +77,15 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
             int vuosi = Integer.parseInt(katkaistuPvm[2]);
 
             LocalDate pvm = LocalDate.of(vuosi, kuukausi, paiva);
-            Uutinen uusiUutinen = new Uutinen(uusiTunniste, pvm, uusiDokumentti[2]);
-            this.lisää(uusiUutinen);
+            dokumentti = new Uutinen(uusiTunniste, pvm, uusiDokumentti[2]);
         } else {
-            Vitsi uusiVitsi = new Vitsi(uusiTunniste, uusiDokumentti[1], uusiDokumentti[2]);
-            this.lisää(uusiVitsi);
+            dokumentti = new Vitsi(uusiTunniste, uusiDokumentti[1], uusiDokumentti[2]);
+        }
+        // Tarkistetaan että se on oikeaa tyyppiä
+        if(tarkistaDokumenttiTyyppi(dokumentti)){
+            dokumentit().lisää(dokumentti);
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
@@ -94,6 +101,25 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
         for (String uusiKokoelma : tekstiKokoelma){
             lisääDokumenttiKokoelmaan(uusiKokoelma);
         }
+    }
+
+    /**
+     * Tarkistetaan onko dokkari haluttua tyyppiä, eli Uutinen tai Vitsi.
+     * Tapauksissa joissa dokumentit lista on tyhjä, palautetaan true.
+     * @param dokkari Dokumentti jonka tyyppiä halutaan vertailla
+     * @return true jos pitää paikkaansa, false jos eri tyyppiä.
+     */
+    public boolean tarkistaDokumenttiTyyppi(Dokumentti dokkari){
+        if (dokumentit().size() == 0){
+            return true;
+        }
+        if (dokumentit().get(0) instanceof Uutinen && dokkari instanceof Uutinen){
+            return true;
+        }
+        if (dokumentit().get(0) instanceof Vitsi && dokkari instanceof Vitsi){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -116,13 +142,17 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     /**
      * Poistaa halutun dokumentin kokoelmasta.
      * @param tunniste dokumentin tunniste.
+     * @throws IllegalArgumentException Jos dokumenttia ei löydy
      */
-    public void poista(int tunniste){
+    public void poista(int tunniste) throws IllegalArgumentException{
+        boolean onkoOlemassa = true;
         for (int i = 0; i < dokumentit().size(); i++) {
             if (dokumentit().get(i).tunniste() == tunniste){
                 dokumentit().remove(i);
+                onkoOlemassa = false;
             }
         }
+        if (onkoOlemassa) throw new IllegalArgumentException();
     }
 
     /**
@@ -157,6 +187,28 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
             }
         }
         return hakemisto;
+    }
+
+    public void mitenLajitellaanKokoelma(String laji) throws IllegalArgumentException{
+        Comparator<Dokumentti> vertailija;
+        try {
+            switch (laji) {
+                case "id":
+                    vertailija = Comparator.comparing(Dokumentti::tunniste);
+                    break;
+                case "date":
+                    vertailija = Comparator.comparing(dokumentti -> ((Uutinen) dokumentti).päivämäärä());
+                    break;
+                case "type":
+                    vertailija = Comparator.comparing(dokumentti -> ((Vitsi) dokumentti).laji());
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+            dokumentit.lajittele(vertailija);
+        } catch (ClassCastException e){
+            throw new IllegalArgumentException();
+        }
     }
 
 }

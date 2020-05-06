@@ -177,7 +177,7 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
                     lista.set(i, uusiSana);
                 }else{
                     lista.remove(i);
-                    i--;
+                    if (i != 0) i--;
                 }
             }
         }
