@@ -63,6 +63,7 @@ public class Kayttoliittyma {
 
         boolean runLoop = true;
         boolean enableEcho = false;
+        boolean komentoOnNumero = false;
 
         try {
             kokoelma.luoKokoelma(tekstiKokoelma);
@@ -75,6 +76,13 @@ public class Kayttoliittyma {
             System.out.println("Please, enter a command:");
             String inputCommand = scanner.nextLine();
             LinkedList<String> command = new LinkedList<>(Arrays.asList(inputCommand.split(" ")));
+
+            // Tarkistetaan että komennon ensimmäinen parametri on numero
+            if (command.size() > 1 && onkoNumero(command.get(1))){
+                komentoOnNumero = true;
+            } else {
+                komentoOnNumero = false;
+            }
 
             if (enableEcho){
                 System.out.println(inputCommand);
@@ -115,7 +123,7 @@ public class Kayttoliittyma {
 
             // Komennot jotka ottavat yhden argumentin vastaan, tästä on poistettu polish, add ja find,
             // ne käsitellään omilla alueillaan, koska ne eivät ota vastaan integerejä.
-            } else if (command.size() == 2 && !("polish/find/add/sort").contains(command.get(0))) {
+            } else if (komentoOnNumero && command.size() == 2 ) {
                 try {
                     int commandArg = Integer.parseInt(command.get(1));
 
@@ -149,61 +157,87 @@ public class Kayttoliittyma {
                 }
 
 
-            } else if (command.get(0).equals("polish") && command.size() == 2){
-                    for(Dokumentti dokkari : kokoelma.dokumentit()){
-                        dokkari.siivoa(sulkusanat, command.get(1));
-                    }
+            } else if ( !komentoOnNumero && command.size() >= 2 ){
 
-            } else if (command.get(0).equals("find")){
-                try {
-                    // Lisätään find komennon kaikki arguementit listaan ja poistetaan eka,
-                    // koska se on komento "find"
-                    LinkedList<String> poistoSanat = new LinkedList<>(command);
-                    poistoSanat.remove(0);
-
-                    for (Dokumentti dokkari : kokoelma.dokumentit()){
-                        if (dokkari.sanatTäsmäävät(poistoSanat)){
-                            System.out.println(dokkari.tunniste());
+                switch (command.get(0)){
+                    case "polish":
+                        if (command.size() == 2) {
+                            for(Dokumentti dokkari : kokoelma.dokumentit()){
+                                dokkari.siivoa(sulkusanat, command.get(1));
+                            }
+                        } else {
+                            System.out.println("Error!");
                         }
-                    }
-                } catch (Exception e) {
-                    System.out.println("Error!");
-                }
-            } else if (command.get(0).equals("add")){
-                String uusiDokumentti = inputCommand.replace(command.get(0) + " ", "");
-                // Jos kokoelmasta löytyy samalla tunnisteella dokumentti, palauttaa method
-                // IllegalArgumentException
-                try {
-                    kokoelma.lisääDokumenttiKokoelmaan(uusiDokumentti);
-                } catch (IllegalArgumentException e){
-                    System.out.println("Error!");
-                }
+                        break;
+                    case "find":
+                        try {
+                            // Lisätään find komennon kaikki arguementit listaan ja poistetaan eka,
+                            // koska se on komento "find"
+                            LinkedList<String> poistoSanat = new LinkedList<>(command);
+                            poistoSanat.remove(0);
 
-            } else if (command.get(0).equals("pprint") && command.size() == 3){
+                            for (Dokumentti dokkari : kokoelma.dokumentit()){
+                                if (dokkari.sanatTäsmäävät(poistoSanat)){
+                                    System.out.println(dokkari.tunniste());
+                                }
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Error!");
+                        }
+                        break;
+                    case "add":
+                        String uusiDokumentti = inputCommand.replace(command.get(0) + " ", "");
+                        // Jos kokoelmasta löytyy samalla tunnisteella dokumentti, palauttaa method
+                        // IllegalArgumentException
+                        try {
+                            kokoelma.lisääDokumenttiKokoelmaan(uusiDokumentti);
+                        } catch (IllegalArgumentException e){
+                            System.out.println("Error!");
+                        }
+                        break;
+                    case "pprint":
+                        try {
+                            int leveys = Integer.parseInt(command.get(1));
+                            int dokumenttiTunnus = Integer.parseInt(command.get(2));
+                            Dokumentti tulostettava = kokoelma.hae(dokumenttiTunnus);
 
-                try {
-                    int leveys = Integer.parseInt(command.get(1));
-                    int dokumenttiTunnus = Integer.parseInt(command.get(2));
-                    Dokumentti tulostettava = kokoelma.hae(dokumenttiTunnus);
+                            if (tulostettava == null){
+                                System.out.println("Error!");
+                            } else {
+                                prettyPrint(tulostettava, leveys);
+                            }
+                        } catch (Exception e){
+                            System.out.println("Error!");
+                        }
+                    case "sort":
+                        try {
+                            kokoelma.mitenLajitellaanKokoelma(command.get(1));
+                        } catch (IllegalArgumentException e){
+                            System.out.println("Error!");
+                        }
+                        break;
 
-                    if (tulostettava == null){
+                default:
                         System.out.println("Error!");
-                    } else {
-                        prettyPrint(tulostettava, leveys);
-                    }
-                } catch (Exception e){
-                    System.out.println("Error!");
-                }
-
-            } else if (command.get(0).equals("sort") && command.size() == 2){
-                try {
-                    kokoelma.mitenLajitellaanKokoelma(command.get(1));
-                } catch (IllegalArgumentException e){
-                    System.out.println("Error!");
+                        break;
                 }
             } else {
                 System.out.println("Error!");
             }
+        }
+    }
+
+    /**
+     * Tarkistaa onko sana integer
+     * @param sana sana mikä halutaan tarkistaa
+     * @return true jos sana on integer, false jos ei
+     */
+    private boolean onkoNumero(String sana){
+        try{
+            int x = Integer.parseInt(sana);
+            return true;
+        } catch (Exception e){
+            return false;
         }
     }
 
