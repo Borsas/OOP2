@@ -52,13 +52,17 @@ public class OmaLista<E> extends LinkedList<E> implements Ooperoiva<E>{
      * Järjestää listan käyttäen apunaan Comparator vertailijaa.
      * @param vertailija viite vertailijaan, joka on Comparator-rajapinnan toteuttava
      * metodi eli lambda.
-     * @throws IllegalArgumentException jos on null
+     * @throws IllegalArgumentException jos on null tai lajittelun aikana tapahtuu jokin virhe
      */
     @Override
     public void lajittele(Comparator<? super E> vertailija) throws IllegalArgumentException {
         if (vertailija == null ) {
             throw new IllegalArgumentException();
         }
-        this.sort(vertailija);
+        try {
+            this.sort(vertailija);
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
     }
 }

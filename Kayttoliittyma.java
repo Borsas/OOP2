@@ -17,7 +17,9 @@ import java.util.TreeMap;
  */
 public class Kayttoliittyma {
 
-    // Kokoelma
+    /**
+     * Kokoelma asetetaan tähän variableen, jotta sitä voidaan käyttää luokan sisällä
+     */
     private Kokoelma kokoelma;
 
     // Rakentaja
@@ -63,7 +65,7 @@ public class Kayttoliittyma {
 
         boolean runLoop = true;
         boolean enableEcho = false;
-        boolean komentoOnNumero = false;
+        boolean komentoOnNumero;
 
         try {
             kokoelma.luoKokoelma(tekstiKokoelma);
@@ -78,7 +80,7 @@ public class Kayttoliittyma {
             LinkedList<String> command = new LinkedList<>(Arrays.asList(inputCommand.split(" ")));
 
             // Tarkistetaan että komennon ensimmäinen parametri on numero
-            if (command.size() > 1 && onkoNumero(command.get(1))){
+            if (command.size() == 2 && onkoNumero(command.get(1))){
                 komentoOnNumero = true;
             } else {
                 komentoOnNumero = false;
@@ -121,8 +123,7 @@ public class Kayttoliittyma {
                         break;
                 }
 
-            // Komennot jotka ottavat yhden argumentin vastaan, tästä on poistettu polish, add ja find,
-            // ne käsitellään omilla alueillaan, koska ne eivät ota vastaan integerejä.
+            // Komennot jotka ottavat yhden argumentin vastaan, joka on Integer
             } else if (komentoOnNumero && command.size() == 2 ) {
                 try {
                     int commandArg = Integer.parseInt(command.get(1));
@@ -137,6 +138,7 @@ public class Kayttoliittyma {
                             }
                             break;
                         case "remove":
+                            // Virheen sattuessa catch nappaa sen.
                             kokoelma.poista(commandArg);
                             break;
                         case "freqs":
@@ -156,7 +158,8 @@ public class Kayttoliittyma {
                     System.out.println("Error!");
                 }
 
-
+            // Komennot jotka ottavat vastaan joko yhden argumentin joka ei ole integer, tai komennot
+            // jotka ottavat vastaan enemmän kuin yhden integerin.
             } else if ( !komentoOnNumero && command.size() >= 2 ){
 
                 switch (command.get(0)){
@@ -209,6 +212,7 @@ public class Kayttoliittyma {
                         } catch (Exception e){
                             System.out.println("Error!");
                         }
+                        break;
                     case "sort":
                         try {
                             kokoelma.mitenLajitellaanKokoelma(command.get(1));
@@ -262,8 +266,12 @@ public class Kayttoliittyma {
      * Tulostaa dokumentin siten, että rivin leveys on pienempi tai yhtäsuuri kuin "leveys" Integer.
      * @param dokkari Dokumentti joka halutaan tulostaa
      * @param leveys Rivin leveys
+     * @throws IllegalArgumentException Jos Dokumentti on null tai leveys on negatiivinen
      */
-    private void prettyPrint(Dokumentti dokkari, int leveys){
+    private void prettyPrint(Dokumentti dokkari, int leveys) throws IllegalArgumentException{
+        if (dokkari == null || leveys  < 0) {
+            throw new IllegalArgumentException();
+        }
         // Luodaan aloitus tuloste ja jaetaan dokumentin teksti arrayksi.
         String[] dokumentinTiedot = dokkari.toString().split("///");
         String[] teksti = dokkari.teksti().split(" ");
