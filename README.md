@@ -6,6 +6,10 @@ Ohjelman käyttö vaatii vähintään 2 tiedosto, **Vitsi tai Uutinen** dokument
 Dokumentti tiedoston kuuluu seurata alla olevaa formaattia.
 
 `4///miscellaneous///This may be the wine talking, but I really, really, really, really love wine.`
+## Toiminta
+Ohjelma käynnistyy käynnistää Käyttöliittymän, jos se saa oikeat edellä mainitut tiedostot. 
+Käyttäjä pystyy syöttämään tämän jälkeen alla mainittuja komentoja Käyttöliittymälle. Väärän tai virheellisen komennon
+syötettyä, tulostaa ohjelma `Error!`.
 
 ## Komennot
 
@@ -20,7 +24,8 @@ Dokumentti tiedoston kuuluu seurata alla olevaa formaattia.
 * **quit**
 
 #### Laajasta työstä löytyy myös seuraavat komennot
-* **sort**
-* **freqs**
-* **pprint**
+* **sort** `tyyppi`
+* **freqs** `Dokumentti`
+* **pprint** `Leveys, Dokumentti`
+
 
