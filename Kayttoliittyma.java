@@ -1,4 +1,3 @@
-import harjoitustyo.Utility;
 import harjoitustyo.dokumentit.Dokumentti;
 import harjoitustyo.kokoelma.Kokoelma;
 
@@ -37,9 +36,8 @@ public class Kayttoliittyma {
         System.out.println("Welcome to L.O.T.");
 
         if (args.length == 2){
-            Utility util = new Utility();
-            LinkedList<String> tekstiKokoelma = util.lueTiedosto(args[0]);
-            LinkedList<String> sulkusanat = util.lueTiedosto(args[1]);
+            LinkedList<String> tekstiKokoelma = kokoelma.luoKokoelmaTiedostosta(args[0]);
+            LinkedList<String> sulkusanat = kokoelma.lueTiedosto(args[1]);
 
             if (tekstiKokoelma == null || sulkusanat == null){
                 System.out.println("Missing file!");
@@ -66,13 +64,6 @@ public class Kayttoliittyma {
         boolean runLoop = true;
         boolean enableEcho = false;
         boolean komentoOnNumero;
-
-        try {
-            kokoelma.luoKokoelma(tekstiKokoelma);
-        } catch (IllegalArgumentException e){
-            System.out.println("Error!");
-            runLoop = false;
-        }
 
         while(runLoop){
             System.out.println("Please, enter a command:");

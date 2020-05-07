@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class Utility {
 
     /**
-     * Lukee halutun tiedoston sisällän ja asettaa sen LinkedListiin.
+     * Lukee halutun tiedoston sisällön ja asettaa sen LinkedListiin.
      * @param tiedosto tiedoston sijainti.
      * @return palauttaa LinkedListin, joka sisältää tiedoston sisällön
      */

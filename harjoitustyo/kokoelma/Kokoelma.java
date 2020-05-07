@@ -1,5 +1,6 @@
 package harjoitustyo.kokoelma;
 
+import harjoitustyo.Utility;
 import harjoitustyo.dokumentit.Dokumentti;
 import harjoitustyo.dokumentit.Uutinen;
 import harjoitustyo.dokumentit.Vitsi;
@@ -90,9 +91,26 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     }
 
     /**
-     * Luo tiedoston sisällöstä dokumentteja ja lisä ne kokoelmaan.
-     * @param tekstiKokoelma LinkedList<String> joka sisältää kaikki tiedoston dokumentit
-     * @throws IllegalArgumentException jos tekstiKokoelma on null
+     * Luo tiedoston sisällöstä dokumentteja ja lisää ne kokoelmaan.
+     * @param kokoelma tiedoston nimi
+     * @return palauttaa LinkedList<String> jos kokoelman luku onnistui, jos ei palauttaa null
+     */
+    public LinkedList<String> luoKokoelmaTiedostosta(String kokoelma){
+        LinkedList<String> tekstiKokoelma = lueTiedosto(kokoelma);
+        if (tekstiKokoelma == null){
+            return null;
+        }
+        for (String uusiKokoelma : tekstiKokoelma){
+            lisääDokumenttiKokoelmaan(uusiKokoelma);
+        }
+        return tekstiKokoelma;
+    }
+
+    /**
+     * Luo kokoelman tiedoston sisällöstä ja lisää ne kokoelmaan.
+     * Tämän avulla voidaan luoda kokoelma uudestaan.
+     * @param tekstiKokoelma Tiedoston luettu sisältö
+     * @throws IllegalArgumentException Jos parametri on null
      */
     public void luoKokoelma(LinkedList<String> tekstiKokoelma) throws IllegalArgumentException{
         if (tekstiKokoelma == null){
@@ -219,6 +237,16 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
         } catch (ClassCastException e){
             throw new IllegalArgumentException();
         }
+    }
+
+    /**
+     * Lukee halutun tiedoston sisällön käyttäen Utilityn lueTiedosto.
+     * @param tiedosto tiedoston sijainti.
+     * @return palauttaa LinkedListin, joka sisältää tiedoston sisällön, tai null jos tapahtuu virhe
+     */
+    public LinkedList<String> lueTiedosto(String tiedosto){
+        Utility utility = new Utility();
+        return utility.lueTiedosto(tiedosto);
     }
 
 }
