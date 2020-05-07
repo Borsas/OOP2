@@ -71,14 +71,20 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
 
         // Jos uusiDokumentti[1] sisältää pisteitä, on se päivämäärä, jolloin sen olio on Uutinen.
         if (uusiDokumentti[1].contains(".")){
-            String[] katkaistuPvm = uusiDokumentti[1].split("\\.");
+            // Tapauksissa joissa dokumentti onkin Vitsi jonka laji sisältää pisteitä.
+            try {
+                String[] katkaistuPvm = uusiDokumentti[1].split("\\.");
 
-            int paiva = Integer.parseInt(katkaistuPvm[0]);
-            int kuukausi = Integer.parseInt(katkaistuPvm[1]);
-            int vuosi = Integer.parseInt(katkaistuPvm[2]);
+                int paiva = Integer.parseInt(katkaistuPvm[0]);
+                int kuukausi = Integer.parseInt(katkaistuPvm[1]);
+                int vuosi = Integer.parseInt(katkaistuPvm[2]);
 
-            LocalDate pvm = LocalDate.of(vuosi, kuukausi, paiva);
-            dokumentti = new Uutinen(uusiTunniste, pvm, uusiDokumentti[2]);
+                LocalDate pvm = LocalDate.of(vuosi, kuukausi, paiva);
+                dokumentti = new Uutinen(uusiTunniste, pvm, uusiDokumentti[2]);
+
+            } catch (Exception e){
+                dokumentti = new Vitsi(uusiTunniste, uusiDokumentti[1], uusiDokumentti[2]);
+            }
         } else {
             dokumentti = new Vitsi(uusiTunniste, uusiDokumentti[1], uusiDokumentti[2]);
         }
@@ -163,14 +169,11 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
      * @throws IllegalArgumentException Jos dokumenttia ei löydy
      */
     public void poista(int tunniste) throws IllegalArgumentException{
-        boolean onkoOlemassa = true;
-        for (int i = 0; i < dokumentit().size(); i++) {
-            if (dokumentit().get(i).tunniste() == tunniste){
-                dokumentit().remove(i);
-                onkoOlemassa = false;
-            }
+        Dokumentti dokkari = hae(tunniste);
+        if (dokkari == null) {
+            throw new IllegalArgumentException();
         }
-        if (onkoOlemassa) throw new IllegalArgumentException();
+        dokumentit.remove(dokkari);
     }
 
     /**
