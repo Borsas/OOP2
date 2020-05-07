@@ -22,7 +22,7 @@ public class OmaLista<E> extends LinkedList<E> implements Ooperoiva<E>{
      * Jos "uusi" on pienempi kuin seuraava elementti, asetetaan "uusi" elementti seuraavan elementin taakse.
      * @param uusi viite olioon, jonka luokan tai luokan esivanhemman oletetaan
      * toteuttaneen Comparable-rajapinnan.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException jos uusi lisättävä ei toteuta Comparablea
      */
     @SuppressWarnings("unchecked")
     @Override

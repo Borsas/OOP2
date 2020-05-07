@@ -34,7 +34,7 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     /**
      * Lisää dokumentin listalle.
      * @param uusi viite lisättävään dokumenttiin.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException jos dokumentti löytyy jo
      */
     @Override
     public void lisää(harjoitustyo.dokumentit.Dokumentti uusi) throws IllegalArgumentException {
@@ -48,7 +48,7 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     /**
      * Luo oikean dokumentti olion ja lisää sen kokoelmaan, jos sitä ei ole vielä olemassa
      * @param uusi dokumentti joka halutaan lisätä kokoelmaan
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException jos tunniste löytyy.
      */
     public void lisääDokumenttiKokoelmaan(String uusi) throws IllegalArgumentException {
         if (uusi == null){
@@ -92,7 +92,7 @@ public class Kokoelma implements harjoitustyo.apulaiset.Kokoava<harjoitustyo.dok
     /**
      * Luo tiedoston sisällöstä dokumentteja ja lisä ne kokoelmaan.
      * @param tekstiKokoelma LinkedList<String> joka sisältää kaikki tiedoston dokumentit
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException jos tekstiKokoelma on null
      */
     public void luoKokoelma(LinkedList<String> tekstiKokoelma) throws IllegalArgumentException{
         if (tekstiKokoelma == null){

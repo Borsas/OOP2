@@ -80,11 +80,7 @@ public class Kayttoliittyma {
             LinkedList<String> command = new LinkedList<>(Arrays.asList(inputCommand.split(" ")));
 
             // Tarkistetaan että komennon ensimmäinen parametri on numero
-            if (command.size() == 2 && onkoNumero(command.get(1))){
-                komentoOnNumero = true;
-            } else {
-                komentoOnNumero = false;
-            }
+            komentoOnNumero = command.size() == 2 && onkoNumero(command.get(1));
 
             if (enableEcho){
                 System.out.println(inputCommand);

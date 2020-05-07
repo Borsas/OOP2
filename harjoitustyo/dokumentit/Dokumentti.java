@@ -89,7 +89,7 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
      * Tarkistaa täsmäävätkö käyttäjän antamat sanat dokumentin tekstin sanoja.
      * @param hakusanat lista dokumentin tekstistä haettavia sanoja.
      * @return palauttaa true jos hakusanat täsmäävät dokumentin tekstin sanoja.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException jos hakusanat null tai tyhjä
      */
     @Override
     public boolean sanatTäsmäävät(LinkedList<String> hakusanat) throws IllegalArgumentException {
@@ -136,7 +136,7 @@ public abstract class Dokumentti implements Comparable<Dokumentti>, Tietoinen<Do
      * Poistaa dokumentin tekstistä sulkusanat ja käyttäjän antamat välimerkit.
      * @param sulkusanat lista dokumentin tekstistä poistettavia sanoja.
      * @param välimerkit dokumentin tekstistä poistettavat välimerkit merkkijonona.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException jos sulkusanat tai välimerkit ovat null tai tyhjiä.
      */
     @Override
     public void siivoa(LinkedList<String> sulkusanat, String välimerkit) throws IllegalArgumentException {
